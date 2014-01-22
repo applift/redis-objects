@@ -182,6 +182,8 @@ class Redis
       members.join(', ')
     end
 
+    expiration_filter :add
+
     private
 
     def keys_from_objects(sets)

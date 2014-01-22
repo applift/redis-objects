@@ -171,6 +171,7 @@ class Redis
       end
     end
 
+    expiration_filter :[]=, :store, :bulk_set, :fill, :incrby, :incrbyfloat
   end
 end
 
