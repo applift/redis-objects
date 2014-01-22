@@ -15,7 +15,7 @@ class Redis
     attr_reader :key, :options
     def initialize(key, *args)
       super
-      @options[:marshal_keys] ||= {} 
+      @options[:marshal_keys] ||= {}
     end
 
     # Needed since Redis::Hash masks bare Hash in redis.rb
@@ -161,7 +161,17 @@ class Redis
     end
     alias_method :incr, :incrby
 
-    expiration_filter :[]=, :store, :bulk_set, :fill, :incrby
+    # Increment value by float at field. Redis: HINCRBYFLOAT
+    def incrbyfloat(field, val = 1.0)
+      ret = redis.hincrbyfloat(key, field, val)
+      unless ret.is_a? Array
+        ret.to_f
+      else
+        nil
+      end
+    end
+
+    expiration_filter :[]=, :store, :bulk_set, :fill, :incrby, :incrbyfloat
   end
 end
 
